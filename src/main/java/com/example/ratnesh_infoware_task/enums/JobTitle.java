@@ -1,0 +1,14 @@
+package com.example.ratnesh_infoware_task.enums;
+
+public enum JobTitle {
+    SOFTWARE_ENGINEER,
+    SENIOR_SOFTWARE_ENGINEER,
+    SOFTWARE_ARCHITECT,
+    TECH_LEAD,
+    PROJECT_MANAGER,
+    SENIOR_PROJECT_MANAGER,
+    DIRECTOR,
+    VICE_PRESIDENT,
+    CHIEF_TECHNOLOGY_OFFICER,
+    CHIEF_EXECUTIVE_OFFICER
+}
