@@ -4,7 +4,9 @@ import com.example.ratnesh_infoware_task.payload.request.EmployeeReq;
 import com.example.ratnesh_infoware_task.payload.response.EmployeeRes;
 import com.example.ratnesh_infoware_task.service.employee.EmployeeService;
 import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
 
+@Service
 public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void addEmployee(EmployeeReq request) {
