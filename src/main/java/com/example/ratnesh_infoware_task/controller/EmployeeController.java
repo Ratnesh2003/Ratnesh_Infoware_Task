@@ -1,9 +1,10 @@
 package com.example.ratnesh_infoware_task.controller;
 
-import com.example.ratnesh_infoware_task.payload.request.EmployeeReq;
+import com.example.ratnesh_infoware_task.dto.EmployeeDTO;
 import com.example.ratnesh_infoware_task.service.employee.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +18,9 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @PostMapping("/add")
-    public ResponseEntity<?> addEmployee(@RequestBody EmployeeReq request) {
+    public ResponseEntity<?> addEmployee(@RequestBody EmployeeDTO employeeDTO) {
         try {
-            employeeService.addEmployee(request);
+            employeeService.addEmployee(employeeDTO);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {
             log.error("Error while adding employee", e);
@@ -28,9 +29,13 @@ public class EmployeeController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<?> getAllEmployees() {
+    public ResponseEntity<?> getAllEmployees(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "ASC") Sort.Direction direction) {
         try {
-            return ResponseEntity.ok(employeeService.getAllEmployees());
+            return ResponseEntity.ok(employeeService.getAllEmployees(page, size, sortBy, direction));
         } catch (Exception e) {
             log.error("Error while getting all employees", e);
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -38,9 +43,9 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateEmployee(@PathVariable Long id, @RequestBody EmployeeReq request) {
+    public ResponseEntity<?> updateEmployee(@PathVariable Long id, @RequestBody EmployeeDTO employeeDTO) {
         try {
-            employeeService.updateEmployee(id, request);
+            employeeService.updateEmployee(id, employeeDTO);
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (Exception e) {
             log.error("Error while updating employee", e);
