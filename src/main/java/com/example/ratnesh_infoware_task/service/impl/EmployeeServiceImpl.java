@@ -27,6 +27,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void addEmployee(EmployeeDTO employeeDTO) {
         Employee employee = new Employee(employeeDTO);
 
+        if (employeeRepo.existsByEmail(employee.getEmail()) || employeeRepo.existsByPhone(employee.getPhone())) {
+            throw new RuntimeException("Employee with email " + employee.getEmail() + " already exists");
+        }
+
         for (ContactDetailDTO contactDetailDTO : employeeDTO.getContactDetails()) {
             ContactDetail contactDetail = new ContactDetail(contactDetailDTO);
             var savedContactDetail = contactDetailRepo.save(contactDetail);
@@ -46,6 +50,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     public void updateEmployee(Long id, EmployeeDTO employeeDTO) {
         var employee = employeeRepo.findById(id).orElseThrow(() -> new RuntimeException("Employee not found"));
+        employee.setId(id);
         employee.setName(employeeDTO.getName());
         employee.setEmail(employeeDTO.getEmail());
         employee.setJobTitle(employeeDTO.getJobTitle());
@@ -53,11 +58,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setAddress(employeeDTO.getAddress());
         employee.setState(employeeDTO.getState());
         employee.setPhone(employeeDTO.getPhone());
-
-        for (ContactDetail contactDetail : employee.getContactDetails()) {
-            String phone = contactDetail.getPhone();
-            contactDetailRepo.deleteByPhone(phone);
-        }
 
         employee.getContactDetails().clear();
 

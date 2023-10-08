@@ -16,7 +16,6 @@ public class ContactDetail {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String emergencyContact;
-    @Column(unique = true)
     private String phone;
 
     public ContactDetail (ContactDetailDTO contactDetailDTO) {
