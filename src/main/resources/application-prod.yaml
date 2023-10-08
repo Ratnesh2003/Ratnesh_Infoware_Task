@@ -3,7 +3,7 @@ spring:
     url: jdbc:mysql://${DB_HOST:127.0.0.1:3306}/infoware_ratnesh?createDatabaseIfNotExist=true
     hikari:
       username: ${DB_USER:root}
-      password: ${DB_PASSWORD:Abcd@1234}
+      password: ${DB_PASSWORD:root}
       maximum-pool-size: 10
       idle-timeout: 30000
       max-lifetime: 2000000
